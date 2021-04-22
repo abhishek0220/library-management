@@ -16,3 +16,6 @@ db.create_all()
 @app.route('/')
 def hdfd():
     return f"Running..."
+
+from Library.Resources import admin
+api.add_resource(admin.Publisher, '/publisher')
