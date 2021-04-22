@@ -1,6 +1,6 @@
 from Library import db
 
-class Reader(db.Model):
+class ReaderModel(db.Model):
     __tablename__ = "readers"
     reader_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)

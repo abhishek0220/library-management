@@ -1,6 +1,6 @@
 from Library import db
 
-class Librarian(db.Model):
+class LibrarianModel(db.Model):
     __tablename__ = "librarian"
     staff_id = db.Column(db.String(120), primary_key=True)
     password = db.Column(db.String(120), nullable=False)

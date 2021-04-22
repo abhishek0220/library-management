@@ -1,6 +1,6 @@
 from Library import db
 
-class Rental(db.Model):
+class RentalModel(db.Model):
     __tablename__ = "rentals"
     rental_id = db.Column(db.Integer, primary_key=True)
     price_day = db.Column(db.Integer, nullable=False)
