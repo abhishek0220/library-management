@@ -9,7 +9,7 @@ api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['MSSQLSTRING']
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app) 
+db = SQLAlchemy(app)
 db.create_all()
 
 
@@ -19,3 +19,4 @@ def hdfd():
 
 from Library.Resources import admin
 api.add_resource(admin.Publisher, '/publisher')
+api.add_resource(admin.Rental, '/rental')
