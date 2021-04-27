@@ -21,7 +21,7 @@ class Publisher(Resource):
         else:
             publisherObject = db.session.query(PublisherModel).filter(PublisherModel.p_id == data['p_id']).first()
             if(publisherObject == None):
-                return Response("{'message': '404 Not Found', 'status' : 404}", status=404, mimetype='application/json')
+                return Response('{"message": "404 Not Found", "status" : 404}', status=404, mimetype='application/json')
             publisherObject.p_name = data['name']
             publisherObject.address = data['address']
             publisherObject.phone = data['phone']
@@ -29,17 +29,17 @@ class Publisher(Resource):
             publisherObject.save_to_db()
         except Exception as e:
             print(e)
-            return Response("{'message': 'Internal Server Error', 'status' : 503}", status=503, mimetype='application/json')
+            return Response('{"message": "Internal Server Error", "status" : 503}', status=503, mimetype='application/json')
         else:
-            return Response("{'message': 'added Successfully', 'status' : 200}", status=200, mimetype='application/json')
+            return Response('{"message": "added Successfully", "status" : 200}', status=200, mimetype='application/json')
 
     def delete(self):
         p_id = request.args.get('id', -1)
         if(p_id == -1):
-            return Response("{'message': 'Please pass valid id to be deleted', 'status' : 200}", status=200, mimetype='application/json')
+            return Response('{"message": "Please pass valid id to be deleted", "status" : 200}', status=200, mimetype='application/json')
         db.session.query(PublisherModel).filter(PublisherModel.p_id == p_id).delete()
         db.session.commit()
-        return Response("{'message': 'Deleted Successfully', 'status' : 200}", status=200, mimetype='application/json')
+        return Response('{"message": "Deleted Successfully", "status" : 200}', status=200, mimetype='application/json')
 
 
 class Rental(Resource):
@@ -60,7 +60,7 @@ class Rental(Resource):
             rentalObject = db.session.query(RentalModel).filter(RentalModel.rental_id == data['rentalId']).first()
 
             if(rentalObject == None):
-                return Response("{'message': '404 Not Found', 'status' : 404}", status=404, mimetype='application/json')
+                return Response('{"message": "404 Not Found", "status" : 404}', status=404, mimetype='application/json')
 
             rentalObject.price_day = data['price']
             rentalObject.fine_day = data['fine']
@@ -71,23 +71,23 @@ class Rental(Resource):
             rentalObject.save_to_db()
         except Exception as e:
             print(e)
-            return Response("{'message': 'Internal Server Error', 'status' : 503}", status=503, mimetype='application/json')
+            return Response('{"message": "Internal Server Error", "status" : 503}', status=503, mimetype='application/json')
         else:
-            return Response("{'message': 'added Successfully', 'status' : 200}", status=200, mimetype='application/json')
+            return Response('{"message": "added Successfully", "status" : 200}', status=200, mimetype='application/json')
 
 
     def delete(self):
         rental_id = request.args.get('id', -1)
 
         if(rental_id == -1):
-            return Response("{'message': 'Please pass valid id to be deleted', 'status' : 200}", status=200, mimetype='application/json')
+            return Response('{"message": "Please pass valid id to be deleted", "status" : 200}', status=200, mimetype='application/json')
 
         # commiting changes to database
         db.session.query(RentalModel).filter(RentalModel.rental_id == rental_id).delete()
         db.session.commit()
 
         # returning the successful response of deletion
-        return Response("{'message': 'Deleted Successfully', 'status' : 200}", status=200, mimetype='application/json')
+        return Response('{"message": "Deleted Successfully", "status" : 200}', status=200, mimetype='application/json')
 
 class Reader(Resource):
     def get(self):
@@ -107,7 +107,7 @@ class Reader(Resource):
             readerObject = db.session.query(ReaderModel).filter(ReaderModel.reader_id == data['reader_id']).first()
 
             if(readerObject == None):
-                return Response("{'message': '404 Not Found', 'status' : 404}", status=404, mimetype='application/json')
+                return Response('{"message": "404 Not Found", "status" : 404}', status=404, mimetype='application/json')
 
             readerObject.name = data['name']
             readerObject.email = data['email']
@@ -118,23 +118,23 @@ class Reader(Resource):
             readerObject.save_to_db()
         except Exception as e:
             print(e)
-            return Response("{'message': 'Internal Server Error', 'status' : 503}", status=503, mimetype='application/json')
+            return Response('{"message": "Internal Server Error", "status" : 503}', status=503, mimetype='application/json')
         else:
-            return Response("{'message': 'added Successfully', 'status' : 200}", status=200, mimetype='application/json')
+            return Response('{"message": "added Successfully", "status" : 200}', status=200, mimetype='application/json')
 
 
     def delete(self):
         reader_id = request.args.get('id', -1)
 
         if(reader_id == -1):
-            return Response("{'message': 'Please pass valid id to be deleted', 'status' : 200}", status=200, mimetype='application/json')
+            return Response('{"message": "Please pass valid id to be deleted", "status" : 200}', status=200, mimetype='application/json')
 
         # commiting changes to database
         db.session.query(ReaderModel).filter(ReaderModel.reader_id == reader_id).delete()
         db.session.commit()
 
         # returning the successful response of deletion
-        return Response("{'message': 'Deleted Successfully', 'status' : 200}", status=200, mimetype='application/json')
+        return Response('{"message": "Deleted Successfully", "status" : 200}', status=200, mimetype='application/json')
 
 class TestClass(Resource):
     def get(self):
