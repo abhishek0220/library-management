@@ -1,4 +1,5 @@
 from Library import db
+from sqlalchemy.orm import relationship
 
 class RentalModel(db.Model):
     __tablename__ = "rentals"
@@ -7,6 +8,7 @@ class RentalModel(db.Model):
     fine_day = db.Column(db.Integer, nullable=False)
     limit_day = db.Column(db.Integer, nullable=False)
 
+    books = relationship("BooksModel", back_populates="rentals")
 
     def __init__(self, price, fine, days):
        self.price_day = price

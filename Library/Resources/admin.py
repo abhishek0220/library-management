@@ -1,9 +1,8 @@
 from flask_restful import Resource, reqparse, request
 from flask import Response
 from Library import db
-from Library.Models.publisher import PublisherModel
-from Library.Models.rental import RentalModel
-from Library.Models.reader import ReaderModel
+from Library.Models.allModels import *
+
 import os
 
 class Publisher(Resource):
@@ -136,3 +135,30 @@ class Reader(Resource):
 
         # returning the successful response of deletion
         return Response("{'message': 'Deleted Successfully', 'status' : 200}", status=200, mimetype='application/json')
+
+class TestClass(Resource):
+    def get(self):
+        #pm = PublisherModel("Manning Publications Company", "NONE", "+919879879876")
+        #pm.save_to_db()
+        #rm = RentalModel(5,3,7)
+        #rm.save_to_db()
+        '''
+        bm = BooksModel(
+            name = 'Unlocking Android',
+            isbn = 1933988673,
+            total_copies = 5,
+            available_copies = 5,
+            #authors = db.Column(db.ARRAY(db.String(50))),
+            pages = 416,
+            thumbnail_url = 'https://s3.amazonaws.com…thumb-images/ableson.jpg',
+            #categories = db.Column(db.ARRAY(db.String(50))),
+            short_desc = "Unlocking Android: A Developer's Guide provides concise, hands-on instruction for the Android operating system and development tools. This book teaches important architectural concepts in a straightforward writing style and builds on this with practical and useful examples throughout.",
+            #long_desc = db.Column(db.String(120), nullable=True),
+            p_id = 1,
+            rental_id = 1,
+        )
+        bm.save_to_db()
+        '''
+        b : BooksModel = db.session.query(BooksModel).first()
+        print(b.publishers)
+        return "hii"

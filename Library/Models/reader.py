@@ -1,4 +1,5 @@
 from Library import db
+from sqlalchemy.orm import relationship
 
 class ReaderModel(db.Model):
     __tablename__ = "readers"
@@ -6,6 +7,8 @@ class ReaderModel(db.Model):
     name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     charges = db.Column(db.Integer, nullable=False, default=0)
+
+    borrows = relationship("BorrowModel", back_populates="readers")
 
     def __init__(self, _name, _email, _charges):
        self.name = _name

@@ -1,14 +1,19 @@
 from Library import db
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
-class PublisherModel(db.Model):
-    __tablename__ = "publishers"
-    p_id = db.Column(db.Integer, primary_key=True)
+class BorrowModel(db.Model):
+    __tablename__ = "borrows"
+    _id = db.Column(db.Integer, primary_key=True)
     p_name = db.Column(db.String(120), nullable=False)
     address = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(13), nullable=False)
+    
+    book_id = db.Column(db.Integer, ForeignKey('books._id'))
+    reader_id = db.Column(db.Integer, ForeignKey('readers.reader_id'))
 
-    books = relationship("BooksModel", back_populates="publishers")
+    books = relationship("BooksModel", back_populates="borrows")
+    readers = relationship("ReaderModel", back_populates="borrows")
 
     def __init__(self,name,address, phone):
        self.p_name = name
