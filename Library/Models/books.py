@@ -26,12 +26,12 @@ class BooksModel(db.Model):
 
     borrows = relationship("BorrowModel", back_populates="books")
 
-    def __init__(self, _id, _name, _isbn, _total_copies, _available_copies, _authors, _pages, _thumbnail_url, _categories, _short_desc, _long_desc, _p_id, _rental_id):
+    def __init__(self, _id, _name, _isbn, _total_copies, _authors, _pages, _thumbnail_url, _categories, _short_desc, _long_desc, _p_id, _rental_id):
         self._id = _id
         self.name = _name
         self.isbn = _isbn
         self.total_copies = _total_copies
-        self.available_copies = _available_copies
+        self.available_copies = _total_copies
         self.authors = _authors
         self.pages = _pages
         self.thumbnail_url = _thumbnail_url
@@ -68,7 +68,9 @@ class BooksModel(db.Model):
                 'publisher,' : pubObject.p_name,
                 'price_day,' : rentObject.price_day,
                 'fine_day' : rentObject.fine_day,
-                'limit_day' : rentObject.limit_day
+                'limit_day' : rentObject.limit_day,
+                'p_id' : x.p_id,
+                'rental_id' : x.rental_id
             }
 
         if(bookObj is not None):

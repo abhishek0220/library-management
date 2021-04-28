@@ -152,7 +152,6 @@ class BooksEndPoint(Resource):
         parser.add_argument('name', help = 'This field cannot be blank', required = True)
         parser.add_argument('isbn', help = 'This field cannot be blank', required = True)
         parser.add_argument('total_copies', help = 'This field cannot be blank', required = True)
-        parser.add_argument('available_copies', help = 'This field cannot be blank', required = True)
         parser.add_argument('authors', help = 'This field cannot be blank', required = True)
         parser.add_argument('pages', help = 'This field cannot be blank', required = True)
         parser.add_argument('thumbnail_url', help = 'This field cannot be blank', required = True)
@@ -164,7 +163,7 @@ class BooksEndPoint(Resource):
         data = parser.parse_args()
 
         if(data['book_id'] == None):
-            bookObject = BooksModel(data['book_id'], data['name'], data['isbn'], data['total_copies'], data['available_copies'], data['authors'], data['pages'], data['thumbnail_url'], data['categories'], data['short_desc'], data['long_desc'], data['p_id'], data['rental_id'])
+            bookObject = BooksModel(data['book_id'], data['name'], data['isbn'], data['total_copies'], data['authors'], data['pages'], data['thumbnail_url'], data['categories'], data['short_desc'], data['long_desc'], data['p_id'], data['rental_id'])
         else:
             bookObject = db.session.query(BooksModel).filter(BooksModel._id == data['book_id']).first()
 
@@ -174,7 +173,6 @@ class BooksEndPoint(Resource):
             bookObject.name = data['name']
             bookObject.isbn = data['isbn']
             bookObject.total_copies = data['total_copies']
-            bookObject.available_copies = data['available_copies']
             bookObject.authors = data['authors']
             bookObject.pages = data['pages']
             bookObject.thumbnail_url = data['thumbnail_url']
