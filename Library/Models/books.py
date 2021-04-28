@@ -1,6 +1,8 @@
 from Library import db
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+from Library.Models.publisher import PublisherModel
+from Library.Models.rental import RentalModel
 
 class BooksModel(db.Model):
     __tablename__ = "books"
@@ -49,21 +51,28 @@ class BooksModel(db.Model):
     @classmethod
     def all_books(cls, bookObj = None):
         def to_json(x):
+            pubObject = db.session.query(PublisherModel).filter(PublisherModel.p_id == x.p_id).first()
+            rentObject = db.session.query(RentalModel).filter(RentalModel.rental_id == x.rental_id).first()
             return {
                 '_id' : x._id,
                 'name' : x.name,
                 'isbn' : x.isbn,
                 'total_copies' : x.total_copies,
                 'available_copies' : x.available_copies,
-                'authors' : x.authors,
-                'pages' : x.pages,
-                'thumbnail_url' : x.thumbnail_url,
-                'categories' : x.categories,
-                'short_desc' : x.short_desc,
-                'long_desc' : x.long_desc,
+                'authors,' : x.authors,
+                'pages,' : x.pages,
+                'thumbnail_url,' : x.thumbnail_url,
+                'categories,' : x.categories,
+                'short_desc,' : x.short_desc,
+                'long_desc,' : x.long_desc,
+                'publisher,' : pubObject.p_name,
+                'price_day,' : rentObject.price_day,
+                'fine_day' : rentObject.fine_day,
+                'limit_day' : rentObject.limit_day,
                 'p_id' : x.p_id,
                 'rental_id' : x.rental_id
             }
+
         if(bookObj is not None):
             return to_json(bookObj)
         try:
