@@ -51,8 +51,8 @@ class BooksModel(db.Model):
     @classmethod
     def all_books(cls, bookObj = None):
         def to_json(x):
-            pubObject = db.session.query(PublisherModel).filter(PublisherModel.p_id == x.p_id).first()
-            rentObject = db.session.query(RentalModel).filter(RentalModel.rental_id == x.rental_id).first()
+            pubObject = x.publishers #db.session.query(PublisherModel).filter(PublisherModel.p_id == x.p_id).first()
+            rentObject = x.rentals #db.session.query(RentalModel).filter(RentalModel.rental_id == x.rental_id).first()
             return {
                 '_id' : x._id,
                 'name' : x.name,
