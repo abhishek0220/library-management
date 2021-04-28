@@ -140,13 +140,11 @@ class Reader(Resource):
 class BooksEndPoint(Resource):
     def get(self):
         book_id = request.args.get('id', -1)
-        print(book_id)
         if (book_id == -1):
             return BooksModel.all_books()
         else:
-            boookObject = db.session.query(BooksModel).filter(BooksModel._id == book_id).first()
-            print(bookObject)
-            return Response('{"message": "got Successfully", "status" : 200}', status=200, mimetype='application/json')
+            bookObject = db.session.query(BooksModel).filter(BooksModel._id == book_id).first()
+            return BooksModel.all_books(bookObject)
 
     def post(self):
         parser = reqparse.RequestParser()

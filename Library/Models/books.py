@@ -47,7 +47,7 @@ class BooksModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def all_books(cls):
+    def all_books(cls, bookObj = None):
         def to_json(x):
             return {
                 '_id' : x._id,
@@ -64,7 +64,8 @@ class BooksModel(db.Model):
                 'p_id,' : x.p_id,
                 'rental_id,' : x.rental_id
             }
-
+        if(bookObj is not None):
+            return to_json(bookObj)
         try:
             return {'books': list(map(lambda x: to_json(x), cls.query.all()))}
         except:
