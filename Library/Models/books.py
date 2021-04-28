@@ -55,14 +55,14 @@ class BooksModel(db.Model):
                 'isbn' : x.isbn,
                 'total_copies' : x.total_copies,
                 'available_copies' : x.available_copies,
-                'authors,' : x.authors,
-                'pages,' : x.pages,
-                'thumbnail_url,' : x.thumbnail_url,
-                'categories,' : x.categories,
-                'short_desc,' : x.short_desc,
-                'long_desc,' : x.long_desc,
-                'p_id,' : x.p_id,
-                'rental_id,' : x.rental_id
+                'authors' : x.authors,
+                'pages' : x.pages,
+                'thumbnail_url' : x.thumbnail_url,
+                'categories' : x.categories,
+                'short_desc' : x.short_desc,
+                'long_desc' : x.long_desc,
+                'p_id' : x.p_id,
+                'rental_id' : x.rental_id
             }
         if(bookObj is not None):
             return to_json(bookObj)
