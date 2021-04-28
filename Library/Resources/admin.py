@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse, request
 from flask import Response
 from Library import db
 from Library.Models.allModels import *
+from flask_jwt_extended import (create_access_token)
 
 import os
 
@@ -259,3 +260,25 @@ class TestClass(Resource):
         b : BooksModel = db.session.query(BooksModel).first()
         print(b.publishers)
         return "hii"
+
+class Login(Resource):
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('userid', help = 'This field cannot be blank', required = True)
+        parser.add_argument('password', help = 'This field cannot be blank', required = True)
+        data = parser.parse_args()
+
+        user : LibrarianModel = db.session.query(LibrarianModel).filter(
+            LibrarianModel.staff_id == data['userid'],
+            LibrarianModel.password == data['password']
+            ).first()
+        if(user is None):
+            return Response('{"message": "Invalid Creds", "status" : 404}', status=404, mimetype='application/json')
+        access_token = create_access_token(identity = user.staff_id)
+        res = {
+            'status' : 'OK',
+            'userid' : user.staff_id,
+            'name' : user.name,
+            'access_token' : access_token
+        }
+        return res

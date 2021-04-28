@@ -6,6 +6,6 @@ SELECT * FROM rentals
 
 SELECT * FROM publishers
 
-SELECT * FROM books
+SELECT * FROM librarian
 
 DROP TABLE books, publishers, rentals, readers
