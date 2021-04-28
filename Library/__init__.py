@@ -21,4 +21,6 @@ from Library.Resources import admin
 api.add_resource(admin.Publisher, '/publisher')
 api.add_resource(admin.Rental, '/rental')
 api.add_resource(admin.Reader, '/reader')
+api.add_resource(admin.BooksEndPoint, '/books')
+api.add_resource(admin.BorrowsEndPoint, '/borrow')
 api.add_resource(admin.TestClass, '/test')

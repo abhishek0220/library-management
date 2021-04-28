@@ -136,6 +136,103 @@ class Reader(Resource):
         # returning the successful response of deletion
         return Response('{"message": "Deleted Successfully", "status" : 200}', status=200, mimetype='application/json')
 
+class BooksEndPoint(Resource):
+    def get(self):
+        book_id = request.args.get('id', -1)
+        print(book_id)
+        if (book_id == -1):
+            return BooksModel.all_books()
+        else:
+            boookObject = db.session.query(BooksModel).filter(BooksModel._id == book_id).first()
+            print(bookObject)
+            return Response('{"message": "got Successfully", "status" : 200}', status=200, mimetype='application/json')
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('book_id', required = False)
+        parser.add_argument('name', help = 'This field cannot be blank', required = True)
+        parser.add_argument('isbn', help = 'This field cannot be blank', required = True)
+        parser.add_argument('total_copies', help = 'This field cannot be blank', required = True)
+        parser.add_argument('available_copies', help = 'This field cannot be blank', required = True)
+        parser.add_argument('authors', help = 'This field cannot be blank', required = True)
+        parser.add_argument('pages', help = 'This field cannot be blank', required = True)
+        parser.add_argument('thumbnail_url', help = 'This field cannot be blank', required = True)
+        parser.add_argument('categories', help = 'This field cannot be blank', required = True)
+        parser.add_argument('short_desc', help = 'This field cannot be blank', required = True)
+        parser.add_argument('long_desc', help = 'This field cannot be blank', required = True)
+        parser.add_argument('p_id', help = 'This field cannot be blank', required = True)
+        parser.add_argument('rental_id', help = 'This field cannot be blank', required = True)
+        data = parser.parse_args()
+
+        if(data['book_id'] == None):
+            bookObject = BooksModel(data['book_id'], data['name'], data['isbn'], data['total_copies'], data['available_copies'], data['authors'], data['pages'], data['thumbnail_url'], data['categories'], data['short_desc'], data['long_desc'], data['p_id'], data['rental_id'])
+        else:
+            bookObject = db.session.query(BooksModel).filter(BooksModel._id == data['book_id']).first()
+
+            if(bookObject == None):
+                return Response('{"message": "404 Not Found", "status" : 404}', status=404, mimetype='application/json')
+
+            bookObject.name = data['name']
+            bookObject.isbn = data['isbn']
+            bookObject.total_copies = data['total_copies']
+            bookObject.available_copies = data['available_copies']
+            bookObject.authors = data['authors']
+            bookObject.pages = data['pages']
+            bookObject.thumbnail_url = data['thumbnail_url']
+            bookObject.categories = data['categories']
+            bookObject.short_desc = data['short_desc']
+            bookObject.long_desc = data['long_desc']
+            bookObject.p_id = data['p_id']
+            bookObject.rental_id = data['rental_id']
+
+        # commiting changes to database
+        try:
+            bookObject.save_to_db()
+        except Exception as e:
+            print(e)
+            return Response('{"message": "Internal Server Error", "status" : 503}', status=503, mimetype='application/json')
+        else:
+            return Response('{"message": "added Successfully", "status" : 200}', status=200, mimetype='application/json')
+
+    def delete(self):
+        book_id = request.args.get('id', -1)
+
+        if(book_id == -1):
+            return Response('{"message": "Please pass valid id to be deleted", "status" : 200}', status=200, mimetype='application/json')
+
+        # commiting changes to database
+        db.session.query(BooksModel).filter(BooksModel._id == book_id).delete()
+        db.session.commit()
+
+        # returning the successful response of deletion
+        return Response('{"message": "Deleted Successfully", "status" : 200}', status=200, mimetype='application/json')
+
+class BorrowsEndPoint(Resource):
+    def get(self):
+        return BorrowModel.all_borrowers()
+
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('borrow_id', required = False)
+        parser.add_argument('name', help = 'This field cannot be blank', required = True)
+        parser.add_argument('address', help = 'This field cannot be blank', required = True)
+        parser.add_argument('phone', help = 'This field cannot be blank', required = True)
+        parser.add_argument('book_id', help = 'This field cannot be blank', required = True)
+        parser.add_argument('reader_id', help = 'This field cannot be blank', required = True)
+        data = parser.parse_args()
+
+        readerObject = BorrowModel(data['name'], data['address'], data['phone'], data['book_id'], data['reader_id'])
+
+        # commiting changes to database
+        try:
+            readerObject.save_to_db()
+        except Exception as e:
+            print(e)
+            return Response('{"message": "Internal Server Error", "status" : 503}', status=503, mimetype='application/json')
+        else:
+            return Response('{"message": "added Successfully", "status" : 200}', status=200, mimetype='application/json')
+
 class TestClass(Resource):
     def get(self):
         #pm = PublisherModel("Manning Publications Company", "NONE", "+919879879876")

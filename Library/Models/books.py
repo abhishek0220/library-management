@@ -24,16 +24,48 @@ class BooksModel(db.Model):
 
     borrows = relationship("BorrowModel", back_populates="books")
 
+    def __init__(self, _id, _name, _isbn, _total_copies, _available_copies, _authors, _pages, _thumbnail_url, _categories, _short_desc, _long_desc, _p_id, _rental_id):
+        self._id = _id
+        self.name = _name
+        self.isbn = _isbn
+        self.total_copies = _total_copies
+        self.available_copies = _available_copies
+        self.authors = _authors
+        self.pages = _pages
+        self.thumbnail_url = _thumbnail_url
+        self.categories = _categories
+        self.short_desc = _short_desc
+        self.long_desc = _long_desc
+        self.p_id = _p_id
+        self.rental_id = _rental_id
+
     def __repr__(self):
         return '<Book name %r>' % self.name
-    
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
-    
+
     @classmethod
     def all_books(cls):
+        def to_json(x):
+            return {
+                '_id' : x._id,
+                'name' : x.name,
+                'isbn' : x.isbn,
+                'total_copies' : x.total_copies,
+                'available_copies' : x.available_copies,
+                'authors,' : x.authors,
+                'pages,' : x.pages,
+                'thumbnail_url,' : x.thumbnail_url,
+                'categories,' : x.categories,
+                'short_desc,' : x.short_desc,
+                'long_desc,' : x.long_desc,
+                'p_id,' : x.p_id,
+                'rental_id,' : x.rental_id
+            }
+
         try:
-            return cls.query.all()
+            return {'books': list(map(lambda x: to_json(x), cls.query.all()))}
         except:
             return None
